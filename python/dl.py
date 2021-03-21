@@ -31,6 +31,11 @@ for i in range(19):
             if z[i-1,j] > 10:
                 k = 10**5
                 z[i,j] = 10**5
-        print('*'*4 if k==10**5 else ('%4d' % z[i,j]), end='')
+        s = '    '
+        if k == 10**5:
+          s = '****'
+        elif k > 0:
+          s = '%4d' % k
+        print(s, end='')
     print()
 
