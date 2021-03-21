@@ -25,10 +25,16 @@ function cunningham_chains_count(lo,hi)
 end
 
 function dl()
+  out = open("data/dl.csv", "w")
+  write(out, "d,l,c\n")
   for d in 1:9
     c = cunningham_chains_count(10^(d-1)+1,10^d)
     println("$(d) : $(c)")
+    for l in 1:9
+      write(out, "$(d),$(l),$(c[l])\n")
+    end
   end
+  close(out)
 end
 
 Base.@ccallable function julia_main()::Cint
