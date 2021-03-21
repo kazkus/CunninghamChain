@@ -18,10 +18,10 @@ def get_tables(df):
         z2[i,j] += c
   return (z0,z1,z2)
 #
-def print_table(z, type=0):
+def print_table(z, type=0, d_max=9, l_max=9):
   d_column_len = 3
   print(' ' * (d_column_len-1) + '\\', end='')
-  for j in range(9):
+  for j in range(l_max):
     print('|', end='')
     if type == 2:
       print('%7d-' % (j+1), end='')
@@ -30,17 +30,17 @@ def print_table(z, type=0):
   print()
   #
   print('-' * d_column_len,end='')
-  for j in range(9):
+  for j in range(l_max):
     print('+', end='')
     print('-' * 8, end='')
   print()
   #
-  for i in range(9):
+  for i in range(d_max):
     if type == 0:
       print('%3d' % (i+1), end='')
     else:
       print('1-%1d' % (i+1), end='')
-    for j  in range(9):
+    for j  in range(l_max):
         print('|', end='')
         c = z[i,j]
         s = ' ' * 8
