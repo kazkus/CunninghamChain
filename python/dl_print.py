@@ -19,7 +19,9 @@ def get_tables(df):
   return (z0,z1,z2)
 #
 def print_table(z, type=0, d_max=9, l_max=9):
-  d_column_len = 3
+  d_column_len = 1 if d_max <= 9 else 2
+  if type > 0:
+    d_column_len += 2
   print(' ' * (d_column_len-1) + '\\', end='')
   for j in range(l_max):
     print('|', end='')
@@ -37,9 +39,10 @@ def print_table(z, type=0, d_max=9, l_max=9):
   #
   for i in range(d_max):
     if type == 0:
-      print('%3d' % (i+1), end='')
+      f = '%%%dd' % d_column_len
     else:
-      print('1-%1d' % (i+1), end='')
+      f = '1-%%%dd' % (d_column_len - 2)
+    print(f % (i+1), end='')
     for j  in range(l_max):
         print('|', end='')
         c = z[i,j]
