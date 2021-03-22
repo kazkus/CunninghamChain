@@ -60,7 +60,7 @@ end
 
 Base.@ccallable function julia_main()::Cint
   dl09()
-  # dl10()
+  dl10()
   return 0
 end
 
