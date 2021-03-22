@@ -56,10 +56,10 @@ def get_table2(z1):
 def main():
   z0 = get_table()
   print_table(z0, type=0, d_max=19, l_max=14)
-  print('=' * (4+14*10))
+  print('=' * (4+14*11))
   z1 = get_table1(z0)
   print_table(z1, type=1, d_max=19, l_max=14)
-  print('=' * (4+14*10))
+  print('=' * (4+14*11))
   z2 = get_table2(z1)
   print_table(z2, type=2, d_max=19, l_max=14)
 
