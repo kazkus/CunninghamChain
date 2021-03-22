@@ -24,7 +24,7 @@ function cunningham_chains_count(lo,hi)
   return c
 end
 
-function dl()
+function dl09()
   out = open("data/dl.csv", "w")
   write(out, "d,l,c\n")
   for d in 1:9
@@ -37,8 +37,30 @@ function dl()
   close(out)
 end
 
+function dl10()
+  d = 10
+  lo_start = 10^(d-1)+1
+  hi_end = 10^d
+  lo_hi_len = 10^9
+  n = div(hi_end - lo_start + 1, lo_hi_len)
+  cc = zeros(Int64, 9)
+  for lo in lo_start:lo_hi_len:hi_end
+    hi = lo + lo_hi_len - 1
+    c = cunningham_chains_count(lo,hi)
+    println("$(lo) $(hi) : $(c)")
+    cc .+= c
+  end
+  println("$(lo_start) $(hi_end) : $(cc)")
+  out = open("data/dl.csv", "a")
+  for l in 1:9
+    write(out, "$(d),$(l),$(cc[l])\n")
+  end
+  close(out)
+end
+
 Base.@ccallable function julia_main()::Cint
-  dl()
+  dl09()
+  # dl10()
   return 0
 end
 
