@@ -16,7 +16,7 @@ function cunningham_chain(p)
 end
 
 function cunningham_chains_count(lo,hi)
-  c = zeros(Int64, 9)
+  c = zeros(Int64, 10)
   for p in primes(lo,hi)
     n = cunningham_chain(p)
     c[n] += 1
@@ -31,19 +31,20 @@ function dl09()
     c = cunningham_chains_count(10^(d-1)+1,10^d)
     println("$(d) : $(c)")
     for l in 1:9
-      write(out, "$(d),$(l),$(c[l])\n")
+      if c[l] > 0
+        write(out, "$(d),$(l),$(c[l])\n")
+      end
     end
   end
   close(out)
 end
 
-function dl10()
-  d = 10
+function dl10(d)
   lo_start = 10^(d-1)+1
   hi_end = 10^d
   lo_hi_len = 10^9
   n = div(hi_end - lo_start + 1, lo_hi_len)
-  cc = zeros(Int64, 9)
+  cc = zeros(Int64, 10)
   for lo in lo_start:lo_hi_len:hi_end
     hi = lo + lo_hi_len - 1
     c = cunningham_chains_count(lo,hi)
@@ -52,15 +53,16 @@ function dl10()
   end
   println("$(lo_start) $(hi_end) : $(cc)")
   out = open("data/dl.csv", "a")
-  for l in 1:9
+  for l in 1:10
     write(out, "$(d),$(l),$(cc[l])\n")
   end
   close(out)
 end
 
 Base.@ccallable function julia_main()::Cint
-  dl09()
-  dl10()
+  # dl09()
+  # dl10(10)
+  dl10(11)
   return 0
 end
 
