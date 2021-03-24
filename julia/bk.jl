@@ -2,6 +2,7 @@
 
 using Primes
 using Printf
+using JLD
 
 function ord(n,a; k=0)
     m = 1
@@ -24,7 +25,8 @@ function min_k_ord_p_2(p,k)
 end
 
 # odd_prime_list = primes(3,10^8)
-odd_prime_list = primes(3,10^9)
+# odd_prime_list = primes(3,10^9)
+odd_prime_list = primes(3,10^10)
 
 function b(k)
     a = 2^(k-1)
@@ -43,6 +45,8 @@ function julia_main()
         @printf("%2d %21.10f\n", k, a)
         push!(B, a)
     end
+    #
+    save("data/bk.jld", "Bk", B)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
