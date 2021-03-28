@@ -1,4 +1,6 @@
 # Hardy-Littlewood constants
+(calculated with primes up to 1e10)
+
 |k|Ck|
 |---:|:---|
 |`1`|`1.0000000000`|
