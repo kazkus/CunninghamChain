@@ -5,10 +5,15 @@ using Base.Threads
 using Dates
 using Printf
 
-function cunningham_chain(p; kind=1)
+function cunningham_chain(p; kind=1, check=true)
   q = convert(Int128,p)
   n = Int8(0)
-  while isprime(q)
+  while 
+    if check && !isprime(q)
+      break
+    else
+      check = true
+    end
     # kind==1 -> 2q+1, kind==2-> 2q-1
     q = 2q-2*kind+3
     n += 1
@@ -19,7 +24,7 @@ end
 function cunningham_chains_count(lo,hi; kind=1)
   c = zeros(Int64, 10)
   for p in primes(lo,hi)
-    n = cunningham_chain(p, kind=kind)
+    n = cunningham_chain(p, kind=kind, check=false)
     c[n] += 1
   end
   return c
