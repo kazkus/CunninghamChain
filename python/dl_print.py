@@ -1,10 +1,12 @@
 # $Id$
 
+import os
+import sys
 import pandas as pd
 import numpy as np
 
-def get_dl_df():
-  return pd.read_csv('data/dl1.csv')
+def get_dl_df(kind=1):
+  return pd.read_csv("data/dl"+str(kind)+".csv")
 
 def get_tables(df):
   z0 = np.zeros([11,10], dtype=np.int)
@@ -91,7 +93,10 @@ def print_table(z, type=0, d_max=11, l_max=10, md=True):
     print()
 
 def main():
-  df = get_dl_df()
+  kind = 1
+  if len(sys.argv) > 1:
+    kind = int(sys.argv[1])
+  df = get_dl_df(kind=kind)
   z0,z1,z2 = get_tables(df)
   print_table(z0, d_max=11, l_max=10)
   print("=" * (4+10*11))
