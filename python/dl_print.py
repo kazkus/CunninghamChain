@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 def get_dl_df():
-  return pd.read_csv('data/dl.csv')
+  return pd.read_csv('data/dl1.csv')
 
 def get_tables(df):
   z0 = np.zeros([11,10], dtype=np.int)
@@ -18,42 +18,76 @@ def get_tables(df):
         z2[i,j] += c
   return (z0,z1,z2)
 #
-def print_table(z, type=0, d_max=11, l_max=10):
+def print_table(z, type=0, d_max=11, l_max=10, md=True):
   d_column_len = 1 if d_max <= 9 else 2
   c_len = 10
   if type > 0:
     d_column_len += 2
-  print(' ' * (d_column_len-1) + '\\', end='')
+  if md:
+    print('|d\l', end='')
+  else:
+    print(' ' * (d_column_len-1) + '\\', end='')
   for j in range(l_max):
-    print('|', end='')
-    if type == 2:
-      f = '%%%dd-' % (c_len-1)
-      print(f % (j+1), end='')
+    if md:
+      print('|', end='')
     else:
-      f = '%%%dd' % c_len
-      print(f % (j+1), end='')
+      print('|', end='')
+    if type == 2:
+      if md:
+        print('%d-' % (j+1), end='')
+      else:
+        f = '%%%dd-' % (c_len-1)
+        print(f % (j+1), end='')
+    else:
+      if md:
+        print('%d' % (j+1), end='')
+      else:
+        f = '%%%dd' % c_len
+        print(f % (j+1), end='')
+  if md:
+    print('|', end='')
   print()
   #
-  print('-' * d_column_len,end='')
+  if md:
+    print('|---:', end='')
+  else:
+    print('-' * d_column_len,end='')
   for j in range(l_max):
-    print('+', end='')
-    print('-' * c_len, end='')
+    if md:
+      print('|---:', end='')
+    else:
+      print('+', end='')
+      print('-' * c_len, end='')
+  if md:
+    print('|', end='')
   print()
   #
   for i in range(d_max):
     if type == 0:
-      f = '%%%dd' % d_column_len
+      if md:
+        f = '%d'
+      else:
+        f = '%%%dd' % d_column_len
     else:
-      f = '1-%%%dd' % (d_column_len - 2)
+      if md:
+        f = '1&#x2011;%d'
+      else:
+        f = '1-%%%dd' % (d_column_len - 2)
     print(f % (i+1), end='')
     for j  in range(l_max):
         print('|', end='')
         c = z[i,j]
-        s = ' ' * c_len
-        if c > 0:
-          f = '%%%dd' % c_len
-          s = f % c
-        print(s, end='')
+        if md:
+          if c > 0:
+            print('`%d`' % c, end='')
+        else:
+          s = ' ' * c_len
+          if c > 0:
+            f = '%%%dd' % c_len
+            s = f % c
+          print(s, end='')
+    if md:
+      print('|', end='')
     print()
 
 def main():
