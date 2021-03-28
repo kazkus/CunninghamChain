@@ -8,12 +8,19 @@ import numpy as np
 def get_dl_df(kind=1):
   return pd.read_csv("data/dl"+str(kind)+".csv")
 
-def get_tables(df):
-  z0 = np.zeros([11,10], dtype=np.int)
-  z1 = np.zeros([11,10], dtype=np.int)
-  z2 = np.zeros([11,10], dtype=np.int)
+def get_tables(df, kind=1):
+  m = df['d'].max()
+  n = df['l'].max()
+  z0 = np.zeros([m,n], dtype=np.int)
+  z1 = np.zeros([m,n], dtype=np.int)
+  z2 = np.zeros([m,n], dtype=np.int)
   for d,l,c in zip(df['d'], df['l'], df['c']):
+    c = int(c)
+    if c >= 10**18:
+      continue
     z0[d-1,l-1] = c
+    if kind == 0:
+      continue
     for i in range(d-1,11):
       z1[i,l-1] += c
       for j in range(l):
@@ -97,8 +104,12 @@ def main():
   if len(sys.argv) > 1:
     kind = int(sys.argv[1])
   df = get_dl_df(kind=kind)
-  z0,z1,z2 = get_tables(df)
-  print_table(z0, d_max=11, l_max=10)
+  z0,z1,z2 = get_tables(df, kind=kind)
+  d_max = z0.shape[0]
+  l_max = z0.shape[1]
+  print_table(z0, d_max=d_max, l_max=l_max)
+  if kind == 0:
+    return
   print("=" * (4+10*11))
   print_table(z1, type=1, d_max=11, l_max=10)
   print("=" * (4+10*11))
