@@ -1,4 +1,4 @@
-# Adjustmnet factors of
+# Adjustment factors of
 # predicted number of Cunningham chains
 (calculcated with primes up to 1e10)
 
