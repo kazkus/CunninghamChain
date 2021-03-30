@@ -1,7 +1,7 @@
 # CunninghamChain
 * [Cunningham chain count tables](doc/dl.md)
 * [Adjustment factors of predicted number](doc/bk.md)
-* [Hardy-Littlewood consntats](doc/hwc.md)
+* [Hardy-Littlewood constants](doc/hwc.md)
 
 ## famous pages abount Cunningham chain
 * [Cunningham Chain records](http://primerecords.dk/Cunningham_Chain_records.htm) Dirk Augustin
