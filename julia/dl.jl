@@ -5,47 +5,39 @@ using Base.Threads
 using Dates
 using Printf
 
-function cunningham_chain(p; kind=1, check=true)
-  q = convert(Int128,p)
-  n = Int8(0)
-  while 
-    if check && !isprime(q)
-      break
-    else
-      check = true
-    end
-    # kind==1 -> 2q+1, kind==2-> 2q-1
-    q = 2q-2*kind+3
-    n += 1
-  end
-  return n
-end
+include("cc.jl")
 
 function cunningham_chains_count(lo,hi; kind=1)
   c = zeros(Int64, 10)
   for p in primes(lo,hi)
-    n = cunningham_chain(p, kind=kind, check=false)
+    n = CunninghamChains.cunningham_chain(p, kind=kind, check=false)
     c[n] += 1
   end
   return c
 end
 
-function dl09(; kind=1)
-  out = open("data/dl"*string(kind)*".csv", "a")
-  write(out, "d,l,c\n")
+function dl09(; kind=1, csv=false)
+  out = csv ? open("data/dl"*string(kind)*".csv", "a") : nothing
+  if csv
+    write(out, "d,l,c\n")
+  end
   for d in 1:9
     c = cunningham_chains_count(10^(d-1)+1,10^d, kind=kind)
     println("$(d) : $(c)")
-    for l in 1:9
-      if c[l] > 0
-        write(out, "$(d),$(l),$(c[l])\n")
+    if csv
+      for l in 1:9
+        if c[l] > 0
+          write(out, "$(d),$(l),$(c[l])\n")
+        end
       end
     end
   end
-  close(out)
+  if csv
+    close(out)
+  end
 end
 
-function dl10(d; kind=1)
+function dl10(d; kind=1, csv=false)
   lo_start = 10^(d-1)+1
   hi_end = 10^d
   lo_hi_len = 10^9
@@ -58,11 +50,13 @@ function dl10(d; kind=1)
     cc .+= c
   end
   println("$(lo_start) $(hi_end) : $(cc)")
-  out = open("data/dl"*string(kind)*".csv", "a")
-  for l in 1:10
-    write(out, "$(d),$(l),$(cc[l])\n")
+  if csv
+    out = open("data/dl"*string(kind)*".csv", "a")
+    for l in 1:10
+      write(out, "$(d),$(l),$(cc[l])\n")
+    end
+    close(out)
   end
-  close(out)
 end
 
 Base.@ccallable function julia_main()::Cint
